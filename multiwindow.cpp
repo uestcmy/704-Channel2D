@@ -33,8 +33,8 @@ MultiWindow::MultiWindow(QWidget *parent) :
     QGridLayout *layout = new QGridLayout;
  //   Plot *plot = new Plot();
  //   layout->addWidget( plot,1,0 );
-    layout->addWidget(w1, 1, 0);
-    layout->addWidget(w2, 2, 0);
+    layout->addWidget(w2, 1, 0);
+    layout->addWidget(w1, 2, 0);
 
     setLayout(layout);
 

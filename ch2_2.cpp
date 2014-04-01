@@ -14,6 +14,7 @@
 #include <QtCore/QTextStream>
 #include "QDebug"
 #include <QtGui/QApplication>
+#define stardalone
 socklen_t size_chl3;
 sockaddr_in addrSrv_chl3,addrrcv_chl3;
 int sockser_chl3;
@@ -134,6 +135,35 @@ void Ch2_2::paintGL()
     }
     glEnd();
 
+
+    /*legend*/
+    glBegin(GL_QUADS);
+    glColor4f(1,1,1,0.8);
+    glVertex3f(0.2+1.3,-0.5,1.2+1.5); //right up
+    glVertex3f(-0.2+1.3,-0.5,1.2+1.5);// left,down
+    glVertex3f(-0.2+1.3,-0.5,-0.1+1.5);//right down
+    glVertex3f(0.2+1.3,-0.5,-0.1+1.5);//left up
+    glEnd();
+
+
+    glLineWidth(3);
+
+    glBegin(GL_LINE_STRIP);
+    glColor4f(1,0,1,1);//orange
+    glVertex3f(0.2+1.15,-0.4,1.2+0.7); //right up
+    glVertex3f(0.2+1.15,-0.4,-0.1+1.7);//left up
+    glEnd();
+    renderText(0.2+1.15,-0.4,1.2+1.2,"Rx1");
+/*
+    glBegin(GL_LINE_STRIP);
+ //   glColor4f(1, 143.0/255.0, 50.0/255.0,1);//orange
+    glColor4f(0,0,1 ,1);//orange
+    glVertex3f(0.2+1,-0.4,1.2+0.7); //right up
+    glVertex3f(0.2+1,-0.4,-0.1+1.7);//left up
+    glEnd();
+    renderText(0.2+1,-0.4,1.2+1,"Rx2");
+*/
+
 }
 void  Ch2_2::Draw_line(){
     double point2[8][3] = {{2,2,2},{-2,2,2},{-2,2,-2},{2,2,-2},{2,-1,6},{-2,-1,6},{-2,-1,-4},{2,-1,-4}};
@@ -237,6 +267,7 @@ void Ch2_2::keyPressEvent(QKeyEvent *event)
     {
     case Qt::Key_Up :
         xRot += 10;
+        *(pdata) += 0.1;
         break;
     case Qt::Key_Left :
         yRot += 10;
@@ -253,6 +284,8 @@ void Ch2_2::keyPressEvent(QKeyEvent *event)
     case Qt::Key_H :
         lMove += 0.1;
         break;
+
+
     }
     updateGL();
     QGLWidget::keyPressEvent(event);
@@ -271,6 +304,7 @@ void Ch2_2::timerEvent(QTimerEvent *event){
     //floor
     wallplot();
     glEnd();
+#ifdef connected
    char buff[14404*3+10];
     recvfrom(sockser_chl3,&buff,14404*3+10,0,(struct sockaddr *)&addrrcv_chl3,(socklen_t*)&size_chl3);//port :7005
 
@@ -337,7 +371,22 @@ void Ch2_2::timerEvent(QTimerEvent *event){
     if(cnt_update >= 100){
         cnt_update -=100;
     }
+#endif
 
+#ifdef stardalone
+
+     for( int i = num_p-1 ; i >= 1 ; i-- ){
+         *(pdata2+i) = *( pdata2+i-1);
+     }
+     //*(pdata) = 2*sin(cnt_update);
+    *(pdata2) = 1.3;
+
+
+       cnt_update++;
+    if(cnt_update >= 100){
+        cnt_update -=100;
+    }
+#endif
     updateGL();
     //qDebug()<< "timer event in mygl2 Class!" << endl;
 }

@@ -14,6 +14,7 @@
 #include <QtCore/QTextStream>
 #include "QDebug"
 #include <QtGui/QApplication>
+#define stardalone
 socklen_t size_chl2;
 sockaddr_in addrSrv_chl2,addrrcv_chl2;
 int sockser_chl2;
@@ -86,6 +87,7 @@ void Ch2_1::resizeGL(int w, int h)
 // Ⱦ
 void Ch2_1::paintGL()
 {
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
@@ -133,6 +135,7 @@ void Ch2_1::paintGL()
     glEnd();
 
     /*edite by fedora14*/
+
 }
 void  Ch2_1::Draw_line(){
     double point2[8][3] = {{2,2,2},{-2,2,2},{-2,2,-2},{2,2,-2},{2,-1,6},{-2,-1,6},{-2,-1,-4},{2,-1,-4}};
@@ -153,6 +156,23 @@ void  Ch2_1::Draw_line(){
         point2[crr][2] += step;
     }
     glEnd();
+
+    /*legend*/
+    glBegin(GL_QUADS);
+    glColor4f(0.5,0,1,0.8);
+    glVertex3f(0.2+1.3,-0.5,1.2+1.5); //right up
+    glVertex3f(-0.2+1.3,-0.5,1.2+1.5);// left,down
+    glVertex3f(-0.2+1.3,-0.5,-0.1+1.5);//right down
+    glVertex3f(0.2+1.3,-0.5,-0.1+1.5);//left up
+    glEnd();
+
+    glLineWidth(3);
+    glBegin(GL_LINE_STRIP);
+    glColor4f(1, 143.0/255.0, 50.0/255.0,1);
+    glVertex3f(0.2+1.1,-0.4,1.2+0.7); //right up
+    glVertex3f(0.2+1.1,-0.4,-0.1+1.7);//left up
+    glEnd();
+    //renderText(0.2+1.1,-0.4,1.2+1,"Rx1");
 
 
 }
@@ -259,6 +279,7 @@ void Ch2_1::timerEvent(QTimerEvent *event){
     //floor
     wallplot();
     glEnd();
+#ifdef connected
    char buff[14404*3+10];
     recvfrom(sockser_chl2,&buff,14404*3+10,0,(struct sockaddr *)&addrrcv_chl2,(socklen_t*)&size_chl2);//port :7005
 
@@ -315,7 +336,19 @@ void Ch2_1::timerEvent(QTimerEvent *event){
     if(cnt_update >= 100){
         cnt_update -=100;
     }
+#endif
 
+#ifdef stardalone
+    for( int i = num_p-1 ; i >= 1 ; i-- ){
+        *(pdata+i) = *( pdata+i-1);
+    }
+    //*(pdata) = 2*sin(cnt_update);
+    *(pdata) = 2.2;
+       cnt_update++;
+    if(cnt_update >= 100){
+        cnt_update -=100;
+    }
+#endif
     updateGL();
     //qDebug()<< "timer event in mygl2 Class!" << endl;
 }
