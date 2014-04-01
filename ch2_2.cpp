@@ -137,32 +137,33 @@ void Ch2_2::paintGL()
 
 
     /*legend*/
+    double legendpos[2] = {3,0};//x,y
     glBegin(GL_QUADS);
     glColor4f(1,1,1,0.8);
-    glVertex3f(0.2+1.3,-0.5,1.2+1.5); //right up
-    glVertex3f(-0.2+1.3,-0.5,1.2+1.5);// left,down
-    glVertex3f(-0.2+1.3,-0.5,-0.1+1.5);//right down
-    glVertex3f(0.2+1.3,-0.5,-0.1+1.5);//left up
+    glVertex3f(0.2+1.3,-0.5,1.2+1.5+legendpos[0]); //right up
+    glVertex3f(-0.2+1.3,-0.5,1.2+1.5+legendpos[0]);// left,down
+    glVertex3f(-0.2+1.3,-0.5,-0.1+1.5+legendpos[0]);//right down
+    glVertex3f(0.2+1.3,-0.5,-0.1+1.5+legendpos[0]);//left up
     glEnd();
 
 
     glLineWidth(3);
+    glBegin(GL_LINE_STRIP);
+    glColor4f(1,0,0,1);//orange
+    glVertex3f(0.2+1.18,-0.4,1.2+0.7+legendpos[0]); //right up
+    glVertex3f(0.2+1.18,-0.4,-0.1+1.7+legendpos[0]);//left up
+    glEnd();
+    renderText(0.2+1.15,-0.4,1.2+1+legendpos[0],"Rx1");
+    glFlush();
 
     glBegin(GL_LINE_STRIP);
-    glColor4f(1,0,1,1);//orange
-    glVertex3f(0.2+1.15,-0.4,1.2+0.7); //right up
-    glVertex3f(0.2+1.15,-0.4,-0.1+1.7);//left up
-    glEnd();
-    renderText(0.2+1.15,-0.4,1.2+1.2,"Rx1");
-/*
-    glBegin(GL_LINE_STRIP);
- //   glColor4f(1, 143.0/255.0, 50.0/255.0,1);//orange
+    glColor4f(1, 143.0/255.0, 50.0/255.0+legendpos[0],1);//orange
     glColor4f(0,0,1 ,1);//orange
-    glVertex3f(0.2+1,-0.4,1.2+0.7); //right up
-    glVertex3f(0.2+1,-0.4,-0.1+1.7);//left up
+    glVertex3f(0.2+1.03,-0.4,1.2+0.7+legendpos[0]); //right up
+    glVertex3f(0.2+1.03,-0.4,-0.1+1.7+legendpos[0]);//left up
     glEnd();
-    renderText(0.2+1,-0.4,1.2+1,"Rx2");
-*/
+    renderText(0.2+1,-0.4,1.2+1+legendpos[0],"Rx2");
+
 
 }
 void  Ch2_2::Draw_line(){

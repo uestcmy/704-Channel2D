@@ -51,6 +51,12 @@ int main(int argc, char *argv[])
      mw1.resize(600,500);
      mw1.show();
      mw1.setWindowTitle("Channel from port:7005 7006");
+/*
+     Ch2_2 mw2;
+     mw2.resize(600,200);
+     mw2.show();
+     mw2.setWindowTitle("Channel from port:7005 7006");
+*/
 
 /*
 

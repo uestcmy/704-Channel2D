@@ -2,6 +2,8 @@
 #define SUBWINDOW_H
 
 #include <QWidget>
+#include <QKeyEvent>
+#include <GL/glu.h>
 
 namespace Ui {
 class SubWindow;

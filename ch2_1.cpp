@@ -1,10 +1,6 @@
 #include "ch2_1.h"
 #include "ui_ch2_1.h"
 #include <math.h>
-
-
-
-
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netdb.h>
@@ -133,9 +129,6 @@ void Ch2_1::paintGL()
         point2[crr][2] += step;
     }
     glEnd();
-
-    /*edite by fedora14*/
-
 }
 void  Ch2_1::Draw_line(){
     double point2[8][3] = {{2,2,2},{-2,2,2},{-2,2,-2},{2,2,-2},{2,-1,6},{-2,-1,6},{-2,-1,-4},{2,-1,-4}};
@@ -158,6 +151,7 @@ void  Ch2_1::Draw_line(){
     glEnd();
 
     /*legend*/
+
     glBegin(GL_QUADS);
     glColor4f(0.5,0,1,0.8);
     glVertex3f(0.2+1.3,-0.5,1.2+1.5); //right up
@@ -166,14 +160,13 @@ void  Ch2_1::Draw_line(){
     glVertex3f(0.2+1.3,-0.5,-0.1+1.5);//left up
     glEnd();
 
-    glLineWidth(3);
+
     glBegin(GL_LINE_STRIP);
     glColor4f(1, 143.0/255.0, 50.0/255.0,1);
     glVertex3f(0.2+1.1,-0.4,1.2+0.7); //right up
     glVertex3f(0.2+1.1,-0.4,-0.1+1.7);//left up
     glEnd();
-    //renderText(0.2+1.1,-0.4,1.2+1,"Rx1");
-
+    //renderText(0.2+1,-0.4,1.2+1,"Rx3");
 
 }
 void  Ch2_1::Draw_point(){
@@ -229,8 +222,7 @@ void Ch2_1::wallplot(){
         L_Adjust(&point2[i+4][2]);
         D_Adjust(&point2[i+4][0]);
     }
-
-    glColor4f(0, 0, 0,0.2);
+    glColor4f(0, 0, 0,0.3);
     glVertex3f(point2[4][0], point2[4][1], point2[4][2]);
     glVertex3f(point2[5][0]+2, point2[5][1], point2[5][2]);
     glVertex3f(point2[6][0]+2, point2[6][1], point2[6][2]);
