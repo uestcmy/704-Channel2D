@@ -131,6 +131,8 @@ void Ch2_1::paintGL()
         point2[crr][2] += step;
     }
     glEnd();
+
+    /*edite by fedora14*/
 }
 void  Ch2_1::Draw_line(){
     double point2[8][3] = {{2,2,2},{-2,2,2},{-2,2,-2},{2,2,-2},{2,-1,6},{-2,-1,6},{-2,-1,-4},{2,-1,-4}};
