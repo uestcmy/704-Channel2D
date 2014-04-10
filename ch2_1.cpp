@@ -1,6 +1,10 @@
 #include "ch2_1.h"
 #include "ui_ch2_1.h"
 #include <math.h>
+
+
+
+
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netdb.h>
@@ -10,7 +14,6 @@
 #include <QtCore/QTextStream>
 #include "QDebug"
 #include <QtGui/QApplication>
-#define stardalone
 socklen_t size_chl2;
 sockaddr_in addrSrv_chl2,addrrcv_chl2;
 int sockser_chl2;
@@ -83,7 +86,6 @@ void Ch2_1::resizeGL(int w, int h)
 // Ⱦ
 void Ch2_1::paintGL()
 {
-
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
@@ -142,7 +144,7 @@ void  Ch2_1::Draw_line(){
     int crr = 6;
 
     glBegin(GL_LINE_STRIP); // 用折线绘
-    glColor4f(1, 143.0/255.0, 50.0/255.0,1);
+    glColor4f(1, 143.0/255.0, 50.0/255.0,1);//orange 0
     for(int i = 0 ; i < num_p ; i++){
         glVertex3f(*(pdata+i)/5.0, point2[crr][1]+0.1  , point2[crr][2]);
         //point2[crr][0] = 0.3*sin(point2[crr][2])+(qrand() % 10)/100.0;
@@ -150,23 +152,6 @@ void  Ch2_1::Draw_line(){
     }
     glEnd();
 
-    /*legend*/
-
-    glBegin(GL_QUADS);
-    glColor4f(0.5,0,1,0.8);
-    glVertex3f(0.2+1.3,-0.5,1.2+1.5); //right up
-    glVertex3f(-0.2+1.3,-0.5,1.2+1.5);// left,down
-    glVertex3f(-0.2+1.3,-0.5,-0.1+1.5);//right down
-    glVertex3f(0.2+1.3,-0.5,-0.1+1.5);//left up
-    glEnd();
-
-
-    glBegin(GL_LINE_STRIP);
-    glColor4f(1, 143.0/255.0, 50.0/255.0,1);
-    glVertex3f(0.2+1.1,-0.4,1.2+0.7); //right up
-    glVertex3f(0.2+1.1,-0.4,-0.1+1.7);//left up
-    glEnd();
-    //renderText(0.2+1,-0.4,1.2+1,"Rx3");
 
 }
 void  Ch2_1::Draw_point(){
@@ -222,7 +207,8 @@ void Ch2_1::wallplot(){
         L_Adjust(&point2[i+4][2]);
         D_Adjust(&point2[i+4][0]);
     }
-    glColor4f(0, 0, 0,0.3);
+
+    glColor4f(0, 0, 0,0.2);
     glVertex3f(point2[4][0], point2[4][1], point2[4][2]);
     glVertex3f(point2[5][0]+2, point2[5][1], point2[5][2]);
     glVertex3f(point2[6][0]+2, point2[6][1], point2[6][2]);
@@ -271,7 +257,6 @@ void Ch2_1::timerEvent(QTimerEvent *event){
     //floor
     wallplot();
     glEnd();
-#ifdef connected
    char buff[14404*3+10];
     recvfrom(sockser_chl2,&buff,14404*3+10,0,(struct sockaddr *)&addrrcv_chl2,(socklen_t*)&size_chl2);//port :7005
 
@@ -279,7 +264,7 @@ void Ch2_1::timerEvent(QTimerEvent *event){
 
    //
 
-    for( int i = 0 ; i < 2405 ; i ++){
+    for( int i = 0 ; i < 2455 ; i ++){
        int position = i * 6;
        char tmp;
        //swap
@@ -294,7 +279,7 @@ void Ch2_1::timerEvent(QTimerEvent *event){
     }//for
 
     //qDebug() << buff << endl;
-    int position = 18; // avoid the header a0aa 3c20 cccc
+    int position = 30; // avoid the header a0aa 3c20 cccc
     for( int i = 0 ; i < 1200 ; i++){
         for( int j = 0 ; j <8 ;) {
             map1200_2[i][j++] = buff[position++];
@@ -316,7 +301,7 @@ void Ch2_1::timerEvent(QTimerEvent *event){
         *(pdata+i) = *( pdata+i-1);
     }
     //*(pdata) = 2*sin(cnt_update);
-    qDebug() << absdata_2[0];
+    //qDebug() << absdata_2[0];
     if(log(absdata_2[0]) <6){
           *(pdata) = absdata_2[0]/300.0;
 
@@ -328,19 +313,7 @@ void Ch2_1::timerEvent(QTimerEvent *event){
     if(cnt_update >= 100){
         cnt_update -=100;
     }
-#endif
 
-#ifdef stardalone
-    for( int i = num_p-1 ; i >= 1 ; i-- ){
-        *(pdata+i) = *( pdata+i-1);
-    }
-    //*(pdata) = 2*sin(cnt_update);
-    *(pdata) = 2.2;
-       cnt_update++;
-    if(cnt_update >= 100){
-        cnt_update -=100;
-    }
-#endif
     updateGL();
     //qDebug()<< "timer event in mygl2 Class!" << endl;
 }

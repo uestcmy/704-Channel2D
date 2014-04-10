@@ -46,18 +46,12 @@ int main(int argc, char *argv[])
      //char str[] = "Hello world!\n";
 
 
-
+/*
      MultiWindow mw1;
      mw1.resize(600,500);
      mw1.show();
      mw1.setWindowTitle("Channel from port:7005 7006");
-/*
-     Ch2_2 mw2;
-     mw2.resize(600,200);
-     mw2.show();
-     mw2.setWindowTitle("Channel from port:7005 7006");
 */
-
 /*
 
      ChannelH11 w1;
@@ -80,7 +74,10 @@ int main(int argc, char *argv[])
      w23.show();
      w23.setWindowTitle("Subcarrier 2");
 */
-
+     Ch2_2 w23;
+     w23.resize(800,400);
+     w23.show();
+     w23.setWindowTitle("Subcarrier 2");
     return app.exec();
 
 }

@@ -14,7 +14,6 @@
 #include <QtCore/QTextStream>
 #include "QDebug"
 #include <QtGui/QApplication>
-#define stardalone
 socklen_t size_chl3;
 sockaddr_in addrSrv_chl3,addrrcv_chl3;
 int sockser_chl3;
@@ -45,7 +44,7 @@ Ch2_2::Ch2_2(QWidget *parent) :
 
 
       cnt_update = 0;
-      id1 = startTimer(50);
+      id1 = startTimer(100);
 }
 
 
@@ -64,7 +63,7 @@ void Ch2_2::InputManagement(){
 
 void Ch2_2::initializeGL()
 {
-    glClearColor(0.8,0.8,0.8,0);//canvas
+    glClearColor(0.8,0.8,0.8,0.9);//canvas
     glShadeModel(GL_SMOOTH);
     glClearDepth(1.0);
     glEnable(GL_DEPTH_TEST);
@@ -118,12 +117,15 @@ void Ch2_2::paintGL()
 
     //Draw_point();
     Draw_line();
+
+    /*
     glBegin(GL_LINE_STRIP); // 用折线绘
     double point2[8][3] = {{2,2,2},{-2,2,2},{-2,2,-2},{2,2,-2},{2,-1,6},{-2,-1,6},{-2,-1,-4},{2,-1,-4}};
     for(int i = 0 ; i < 4 ; i++){
         L_Adjust(&point2[i+4][2]);
         D_Adjust(&point2[i+4][0]);
     }
+
     glColor4f(0,0,0,0.2);
     int crr = 6;
     int num_p = 50;
@@ -134,35 +136,7 @@ void Ch2_2::paintGL()
         point2[crr][2] += step;
     }
     glEnd();
-
-
-    /*legend*/
-    double legendpos[2] = {3,0};//x,y
-    glBegin(GL_QUADS);
-    glColor4f(1,1,1,0.8);
-    glVertex3f(0.2+1.3,-0.5,1.2+1.5+legendpos[0]); //right up
-    glVertex3f(-0.2+1.3,-0.5,1.2+1.5+legendpos[0]);// left,down
-    glVertex3f(-0.2+1.3,-0.5,-0.1+1.5+legendpos[0]);//right down
-    glVertex3f(0.2+1.3,-0.5,-0.1+1.5+legendpos[0]);//left up
-    glEnd();
-
-
-    glLineWidth(3);
-    glBegin(GL_LINE_STRIP);
-    glColor4f(1,0,0,1);//orange
-    glVertex3f(0.2+1.18,-0.4,1.2+0.7+legendpos[0]); //right up
-    glVertex3f(0.2+1.18,-0.4,-0.1+1.7+legendpos[0]);//left up
-    glEnd();
-    renderText(0.2+1.15,-0.4,1.2+1+legendpos[0],"Rx1");
-    glFlush();
-
-    glBegin(GL_LINE_STRIP);
-    glColor4f(1, 143.0/255.0, 50.0/255.0+legendpos[0],1);//orange
-    glColor4f(0,0,1 ,1);//orange
-    glVertex3f(0.2+1.03,-0.4,1.2+0.7+legendpos[0]); //right up
-    glVertex3f(0.2+1.03,-0.4,-0.1+1.7+legendpos[0]);//left up
-    glEnd();
-    renderText(0.2+1,-0.4,1.2+1+legendpos[0],"Rx2");
+*/
 
 
 }
@@ -178,11 +152,11 @@ void  Ch2_2::Draw_line(){
     double step = 10.0/num_p;
     double st = point2[crr][2];
 
-
+    point2[crr][2]+=1.3;
     glBegin(GL_LINE_STRIP); // 用折线绘
-    glColor4f(1,0,0,0.5);
-    for(int i = 0 ; i < num_p ; i++){
-        glVertex3f(*(pdata+i)/5.0, point2[crr][1]+0.1  , point2[crr][2]);
+    glColor4f(1,0,0,0.5);//red 600
+    for(int i = 0 ; i < num_p-90 ; i++){
+        glVertex3f(*(pdata+i)/5.0-0.5, point2[crr][1]+0.1  , point2[crr][2]);
         //point2[crr][0] = 0.3*sin(point2[crr][2])+(qrand() % 10)/100.0;
         point2[crr][2] += step;
     }
@@ -190,10 +164,11 @@ void  Ch2_2::Draw_line(){
 
 
     point2[crr][2] = st;
+    point2[crr][2]+=1.3;
     glBegin(GL_LINE_STRIP); // 用折线绘
-    glColor4f(0,0,1,0.8);
-    for(int i = 0 ; i < num_p ; i++){
-        glVertex3f(*(pdata2+i)/5.0, point2[crr][1]+0.1  , point2[crr][2]);
+    glColor4f(0,0,1,0.8);//blue 0
+    for(int i = 0 ; i < num_p-90 ; i++){
+        glVertex3f(*(pdata2+i)/5.0-0.5, point2[crr][1]+0.1  , point2[crr][2]);
         //point2[crr][0] = 0.3*sin(point2[crr][2])+(qrand() % 10)/100.0;
         point2[crr][2] += step;
     }
@@ -253,11 +228,82 @@ void Ch2_2::wallplot(){
         D_Adjust(&point2[i+4][0]);
     }
 
-    glColor4f(0, 0, 0,0.2);
-    glVertex3f(point2[4][0], point2[4][1], point2[4][2]);
-    glVertex3f(point2[5][0]+2, point2[5][1], point2[5][2]);
-    glVertex3f(point2[6][0]+2, point2[6][1], point2[6][2]);
-    glVertex3f(point2[7][0], point2[7][1], point2[7][2]);
+    glColor4f(1, 1, 1,1);
+    glVertex3f(point2[4][0], point2[4][1], point2[4][2]-1.7);
+    glVertex3f(point2[5][0]+2, point2[5][1], point2[5][2]-1.7);
+    glVertex3f(point2[6][0]+2, point2[6][1], point2[6][2]+1.07);
+    glVertex3f(point2[7][0], point2[7][1], point2[7][2]+1.07);
+    glEnd();
+    /*axis*/
+    glLineWidth(2);
+    //glBegin(GL_LINE_STRIP);
+    glBegin(GL_LINE_LOOP);
+
+   // glColor4f(1, 143.0/255.0, 50.0/255.0,1);//orange 0
+     glColor4f(0,0,0,1);//orange 0
+    glVertex3f(-0.3,-1+0.1,4.65); // up left
+    glVertex3f(-0.3,-1+0.1,-2.5);// left,down
+    glVertex3f(1.7,-1+0.1,-2.5);//left down
+    glVertex3f(1.7,-1+0.1,4.65);//left down
+    glEnd();
+
+
+    for( double i = 0 ; i < 1.5 ; i +=0.3 ){
+        glLineWidth(1);
+        glBegin(GL_LINE_STRIP);
+   // glBegin(GL_LINE_LOOP);
+   // glColor4f(1, 143.0/255.0, 50.0/255.0,1);//orange 0
+        glColor4f(0,0,0,0.7);//orange 0
+        glVertex3f(0+i,-1+0.1,4.65); // up left
+        glVertex3f(0+i,-1+0.1,-2.5);// left,down
+        glEnd();
+    }
+    glLineWidth(2);
+    glColor4f(1,0,0,0.7);//orange 0
+    renderText(0.3,-1+0.1,-3,"0dB");
+    renderText(0.6,-1+0.1,-3,"10dB");
+    renderText(0.9,-1+0.1,-3,"20dB");
+    renderText(1.2,-1+0.1,-3,"30dB");
+
+
+    //legend
+    glLineWidth(1);
+    glBegin(GL_LINE_LOOP);
+    glColor4f(0,0,0,1);
+    glVertex3f(point2[4][0]-1.5, point2[4][1]+0.21, point2[4][2]-2);
+    glVertex3f(point2[5][0]+2.1, point2[5][1]+0.21, point2[5][2]-2);
+    glVertex3f(point2[6][0]+2.1, point2[6][1]+0.21, point2[6][2]+7);
+    glVertex3f(point2[7][0]-1.5, point2[7][1]+0.21, point2[7][2]+7);
+    glEnd();
+
+    glBegin(GL_QUADS);
+    glColor4f(1, 1, 1,1);
+    glVertex3f(point2[4][0]-1.5, point2[4][1]+0.2, point2[4][2]-2);
+    glVertex3f(point2[5][0]+2.1, point2[5][1]+0.2, point2[5][2]-2);
+    glVertex3f(point2[6][0]+2.1, point2[6][1]+0.2, point2[6][2]+7);
+    glVertex3f(point2[7][0]-1.5, point2[7][1]+0.2, point2[7][2]+7);
+    glEnd();
+
+    glLineWidth(2);
+    glBegin(GL_LINE_STRIP);
+// glBegin(GL_LINE_LOOP);
+// glColor4f(1, 143.0/255.0, 50.0/255.0,1);//orange 0
+    glColor4f(1,0,0,0.5);//orange 0
+    glVertex3f(point2[5][0]+2.2, point2[5][1]+0.21, point2[5][2]-2.6);
+    glVertex3f(point2[6][0]+2.2, point2[6][1]+0.21, point2[6][2]+7.05);
+    glEnd();
+    renderText(point2[6][0]+2.17, point2[6][1]+0.21, point2[6][2]+7.55,"Rx 2");
+
+    glLineWidth(2);
+    glBegin(GL_LINE_STRIP);
+// glBegin(GL_LINE_LOOP);
+// glColor4f(1, 143.0/255.0, 50.0/255.0,1);//orange 0
+    glColor4f(0,0,1,0.5);//orange 0
+    glVertex3f(point2[5][0]+2.4, point2[5][1]+0.21, point2[5][2]-2.6);
+    glVertex3f(point2[6][0]+2.4, point2[6][1]+0.21, point2[6][2]+7.05);
+    glEnd();
+    renderText(point2[6][0]+2.37, point2[6][1]+0.21, point2[6][2]+7.55,"Rx 1");
+
 }
 
 
@@ -268,7 +314,6 @@ void Ch2_2::keyPressEvent(QKeyEvent *event)
     {
     case Qt::Key_Up :
         xRot += 10;
-        *(pdata) += 0.1;
         break;
     case Qt::Key_Left :
         yRot += 10;
@@ -285,8 +330,6 @@ void Ch2_2::keyPressEvent(QKeyEvent *event)
     case Qt::Key_H :
         lMove += 0.1;
         break;
-
-
     }
     updateGL();
     QGLWidget::keyPressEvent(event);
@@ -304,8 +347,7 @@ void Ch2_2::timerEvent(QTimerEvent *event){
     //histoPlot4();
     //floor
     wallplot();
-    glEnd();
-#ifdef connected
+
    char buff[14404*3+10];
     recvfrom(sockser_chl3,&buff,14404*3+10,0,(struct sockaddr *)&addrrcv_chl3,(socklen_t*)&size_chl3);//port :7005
 
@@ -313,7 +355,7 @@ void Ch2_2::timerEvent(QTimerEvent *event){
 
    //
 
-    for( int i = 0 ; i < 2405 ; i ++){
+    for( int i = 0 ; i < 2455 ; i ++){
        int position = i * 6;
        char tmp;
        //swap
@@ -328,7 +370,7 @@ void Ch2_2::timerEvent(QTimerEvent *event){
     }//for
 
     //qDebug() << buff << endl;
-    int position = 18; // avoid the header a0aa 3c20 cccc
+    int position = 30; // avoid the header a0aa 3c20 cccc
     for( int i = 0 ; i < 1200 ; i++){
         for( int j = 0 ; j <8 ;) {
             map1200_3[i][j++] = buff[position++];
@@ -372,22 +414,7 @@ void Ch2_2::timerEvent(QTimerEvent *event){
     if(cnt_update >= 100){
         cnt_update -=100;
     }
-#endif
 
-#ifdef stardalone
-
-     for( int i = num_p-1 ; i >= 1 ; i-- ){
-         *(pdata2+i) = *( pdata2+i-1);
-     }
-     //*(pdata) = 2*sin(cnt_update);
-    *(pdata2) = 1.3;
-
-
-       cnt_update++;
-    if(cnt_update >= 100){
-        cnt_update -=100;
-    }
-#endif
     updateGL();
     //qDebug()<< "timer event in mygl2 Class!" << endl;
 }
