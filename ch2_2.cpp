@@ -14,6 +14,9 @@
 #include <QtCore/QTextStream>
 #include "QDebug"
 #include <QtGui/QApplication>
+
+#define SBC1 0
+#define SBC2 512
 socklen_t size_chl3;
 sockaddr_in addrSrv_chl3,addrrcv_chl3;
 int sockser_chl3;
@@ -39,7 +42,7 @@ Ch2_2::Ch2_2(QWidget *parent) :
       sockser_chl3=socket(AF_INET,SOCK_DGRAM,0);
       addrSrv_chl3.sin_addr.s_addr=htonl(INADDR_ANY);
       addrSrv_chl3.sin_family=AF_INET;
-      addrSrv_chl3.sin_port=htons(7004);//server : receive port number
+      addrSrv_chl3.sin_port=htons(7013);//server : receive port number 7004
       bind(sockser_chl3,(sockaddr*)&addrSrv_chl3,sizeof(sockaddr));
 
 
@@ -156,7 +159,7 @@ void  Ch2_2::Draw_line(){
     glBegin(GL_LINE_STRIP); // 用折线绘
     glColor4f(1,0,0,0.5);//red 600
     for(int i = 0 ; i < num_p-90 ; i++){
-        glVertex3f(*(pdata+i)/5.0-0.5, point2[crr][1]+0.1  , point2[crr][2]);
+        glVertex3f(*(pdata+i)/5.0, point2[crr][1]+0.1  , point2[crr][2]);
         //point2[crr][0] = 0.3*sin(point2[crr][2])+(qrand() % 10)/100.0;
         point2[crr][2] += step;
     }
@@ -168,7 +171,7 @@ void  Ch2_2::Draw_line(){
     glBegin(GL_LINE_STRIP); // 用折线绘
     glColor4f(0,0,1,0.8);//blue 0
     for(int i = 0 ; i < num_p-90 ; i++){
-        glVertex3f(*(pdata2+i)/5.0-0.5, point2[crr][1]+0.1  , point2[crr][2]);
+        glVertex3f(*(pdata2+i)/5.0, point2[crr][1]+0.1  , point2[crr][2]);
         //point2[crr][0] = 0.3*sin(point2[crr][2])+(qrand() % 10)/100.0;
         point2[crr][2] += step;
     }
@@ -370,7 +373,7 @@ void Ch2_2::timerEvent(QTimerEvent *event){
     }//for
 
     //qDebug() << buff << endl;
-    int position = 30; // avoid the header a0aa 3c20 cccc
+    int position = 12; // avoid the header a0aa 3c20 cccc 30
     for( int i = 0 ; i < 1200 ; i++){
         for( int j = 0 ; j <8 ;) {
             map1200_3[i][j++] = buff[position++];
@@ -392,11 +395,19 @@ void Ch2_2::timerEvent(QTimerEvent *event){
         *(pdata+i) = *( pdata+i-1);
     }
     //*(pdata) = 2*sin(cnt_update);
-     if(log(absdata_3[600]) < 0){
-           *(pdata) = absdata_3[600]/300.0;
+    if(log10(absdata_3[SBC2]) < 0){
+           *(pdata) = absdata_3[SBC2]/300.0;
      }
      else{
-           *(pdata) = log(absdata_3[600]);
+
+        double aver = 0;
+        for( int i = 0 ; i < 8 ; i++ ){
+            aver += absdata_3[SBC2+i];
+        }
+        aver /= 8;
+        *(pdata) = log10(aver);
+         //  *(pdata) = log10(absdata_3[SBC2]);
+
      }
 
 
@@ -404,11 +415,23 @@ void Ch2_2::timerEvent(QTimerEvent *event){
          *(pdata2+i) = *( pdata2+i-1);
      }
      //*(pdata) = 2*sin(cnt_update);
-      if(log(absdata_3[0]) < 0){
-            *(pdata2) = absdata_3[0]/300.0;
+      if(log10(absdata_3[SBC1]) < 0){
+            *(pdata2) = absdata_3[SBC1]/300.0;
       }
       else{
-            *(pdata2) = log(absdata_3[0]);
+            //*(pdata2) = log10(absdata_3[SBC1]);
+           double aver = 0;
+           for( int i = 0 ; i < 8 ; i++ ){
+               aver += absdata_3[SBC1+i];
+           }
+           aver /= 8;
+           *(pdata2) = log10(aver);
+       //     double aver = 0;
+
+
+          qDebug() << " data 1 Re  " <<data1_3[0][0] << "  Im "<< data1_3[0][1];
+          qDebug() << " data 2 Re  " <<data1_3[1][0] << "  Im "<< data1_3[1][1];
+
       }
        cnt_update++;
     if(cnt_update >= 100){

@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'ch2_2.ui'
 **
-** Created: Wed Apr 9 15:25:13 2014
+** Created: Sat Apr 12 10:30:41 2014
 **      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
