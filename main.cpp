@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
      Ch2_2 w23;
      w23.resize(800,400);
      w23.show();
-     w23.setWindowTitle("Subcarrier 2");
+     w23.setWindowTitle("Subcarrier 2 port:7022");
     return app.exec();
 
 }
