@@ -84,7 +84,7 @@ void Ch2_2::resizeGL(int w, int h)
     //gluPerspective(40,1.33, 2, 30.0);
     //glOrtho (-1.5 * ( GLfloat ) w / ( GLfloat ) h, 2.3* ( GLfloat ) w / ( GLfloat ) h, -2, 2, -15.0, 15.0);
      //glFrustum (-1.5 * ( GLfloat ) w / ( GLfloat ) h, 2.3* ( GLfloat ) w / ( GLfloat ) h, -2, 1,4, 20.0);
-     glFrustum (-1.5 * ( GLfloat ) w / ( GLfloat ) h, 2.3* ( GLfloat ) w / ( GLfloat ) h, -1, 1.5,6, 10.0);
+     glFrustum (-1.6 * ( GLfloat ) w / ( GLfloat ) h, 2.6* ( GLfloat ) w / ( GLfloat ) h, -1.2, 1.5,6, 10.0);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
