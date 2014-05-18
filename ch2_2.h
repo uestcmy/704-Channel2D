@@ -24,6 +24,8 @@ public:
     int id1;
     double *pdata;
     double *pdata2;
+    double *pdata3;
+    double *pdata4;
     void InputManagement();
     void histoPlot2();
     void Key_Adjust(double *tmp);
