@@ -1,8 +1,13 @@
 #include <QApplication>
+
+
+#include <channelh11.h>
+#include <channel2d.h>
+#include  <multiwindow.h>
 #include <ch2_1.h>
 #include <ch2_2.h>
 #include <qfile.h>
-
+#include <subwindow.h>
 #include <QDebug>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -72,7 +77,7 @@ int main(int argc, char *argv[])
      Ch2_2 w23;
      w23.setGeometry(5,300,600,300);
      w23.show();
-     w23.setWindowTitle("Rx 1 sub0 sub 32 port:7023");
+     w23.setWindowTitle("UE 2 Rx3,4  port:7022");
     return app.exec();
 
 }
