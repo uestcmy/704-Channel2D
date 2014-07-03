@@ -1,10 +1,6 @@
 #include "ch2_2.h"
 #include "ui_ch2_2.h"
 #include <math.h>
-
-
-
-
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netdb.h>
@@ -15,8 +11,9 @@
 #include "QDebug"
 #include <QtGui/QApplication>
 
-#define SBC1 512
-#define SBC2  544
+#define SBC1 0
+//#define SBC2  512
+#define SBC2  32
 #define SBC3 0
 #define SBC4  256
 
@@ -47,7 +44,7 @@ Ch2_2::Ch2_2(QWidget *parent) :
       sockser_chl3=socket(AF_INET,SOCK_DGRAM,0);
       addrSrv_chl3.sin_addr.s_addr=htonl(INADDR_ANY);
       addrSrv_chl3.sin_family=AF_INET;
-      addrSrv_chl3.sin_port=htons(7022);//server : receive port number 7004
+      addrSrv_chl3.sin_port=htons(7023);//server : receive port number 7023 c1cc 12
       bind(sockser_chl3,(sockaddr*)&addrSrv_chl3,sizeof(sockaddr));
 
 
@@ -162,7 +159,7 @@ void  Ch2_2::Draw_line(){
 
     point2[crr][2]+=1.3;
     glBegin(GL_LINE_STRIP); // 用折线绘
-    glColor4f(1,0,0,0.5);//red 600
+    glColor4f(1,0,0,1);//red 600
     for(int i = 0 ; i < num_p-90 ; i++){
         glVertex3f((*(pdata+i)/5.0-YP)*2, point2[crr][1]+0.1  , point2[crr][2]);
         //point2[crr][0] = 0.3*sin(point2[crr][2])+(qrand() % 10)/100.0;
@@ -174,7 +171,7 @@ void  Ch2_2::Draw_line(){
     point2[crr][2] = st;
     point2[crr][2]+=1.3;
     glBegin(GL_LINE_STRIP); // 用折线绘
-    glColor4f(0,0,1,0.8);//blue 0
+    glColor4f(0,0,1,1);//blue 0
     for(int i = 0 ; i < num_p-90 ; i++){
         glVertex3f((*(pdata2+i)/5.0-YP)*2, point2[crr][1]+0.1  , point2[crr][2]);
         //point2[crr][0] = 0.3*sin(point2[crr][2])+(qrand() % 10)/100.0;
@@ -267,7 +264,7 @@ void Ch2_2::wallplot(){
         glEnd();
     }
     glLineWidth(2);
-    glColor4f(1,0,0,0.7);//orange 0
+    glColor4f(1,0,0,1);//orange 0
     renderText(0.3-0.1,-1+0.1,-3,"0dB");
     renderText(0.3+0.225-0.1,-1+0.1,-3,"10dB");
     renderText(0.3+0.45-0.1,-1+0.1,-3,"20dB");
@@ -308,7 +305,7 @@ void Ch2_2::wallplot(){
     glBegin(GL_LINE_STRIP);
 // glBegin(GL_LINE_LOOP);
 // glColor4f(1, 143.0/255.0, 50.0/255.0,1);//orange 0
-    glColor4f(0,0,1,1);//orange 0
+    glColor4f(0,0,1,1);//blue 0
     glVertex3f(point2[5][0]+2.4, point2[5][1]+0.21, point2[5][2]-2.6);
     glVertex3f(point2[6][0]+2.4, point2[6][1]+0.21, point2[6][2]+7.05);
     glEnd();
